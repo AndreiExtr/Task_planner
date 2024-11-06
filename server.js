@@ -1,9 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import mysql from 'mysql2'; // Убедитесь, что используете правильный модуль
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,6 +24,16 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0 
 });
+
+pool.getConnection((err, connection) => {
+    if (err) {
+        console.error('Ошибка подключения к базе данных:', err);
+        return;
+    }
+    console.log('Подключение к базе данных установлено');
+    connection.release(); // Освободить подключение после проверки
+});
+
 
 app.get('/tasks', (req, res) => {
     const query = `

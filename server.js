@@ -1,6 +1,9 @@
 import express from 'express';
 import mysql from 'mysql2'; // Убедитесь, что используете правильный модуль
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,10 +16,10 @@ app.use((req, res, next) => {
 });
 
 const connection = mysql.createConnection({
-    host: 'kolei.ru',
-    user: 'akropinov',
-    password: '171288',
-    database: 'akropinov'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 });
 
 connection.connect(function(err) {

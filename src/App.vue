@@ -1,7 +1,7 @@
 <template>
   <div class="main_app" id="app">
     <Sidebar />
-    <Main />
+    <MainPage />
     <router-view />
   </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 import { defineComponent } from 'vue';
 import Sidebar from '@/components/Sidebar.vue';
-import Main from '@/components/Main.vue';
+import MainPage from '@/components/Main.vue';
 
 export default defineComponent({
   name: 'App',

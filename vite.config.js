@@ -1,7 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,22 +12,20 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  transpileDependencies: true,
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/Task_planner/'
-    : '/',
-  css: {
-    extract: {
-      filename: 'style.css',
-      chunkFilename: 'style.css'
-    }
+  base: process.env.NODE_ENV === 'production' ? '/Task_planner/' : '/',  // Используем base вместо publicPath
+  build: {
+    outDir: 'dist',  // Папка для сборки
+    assetsDir: 'assets',  // Папка для статичных ресурсов
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name].[hash].[ext]',  // Генерация файлов с хешами для предотвращения кэширования
+        chunkFileNames: 'assets/[name].[hash].js',  // Путь к JS-чанкам
+        entryFileNames: 'assets/[name].js',  // Путь к основным JS-файлам
+      },
+    },
   },
-  configureWebpack: {
-    plugins: [
-      new MiniCssExtractPlugin({
-        filename: 'style.css',
-        chunkFilename: 'style.css'
-      })
-    ]
-  }
+  css: {
+    extract: true,  // Включаем извлечение CSS в отдельный файл
+  },
 })
+

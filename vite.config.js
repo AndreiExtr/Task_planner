@@ -12,7 +12,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: process.env.NODE_ENV === 'production' ? '/Task_planner/' : '/',  // Используем base вместо publicPath
+  base: process.env.NODE_ENV === 'production' ? '/Task_planner/' : '/',
   build: {
     outDir: 'dist',  // Папка для сборки
     assetsDir: 'assets',  // Папка для статичных ресурсов
@@ -25,7 +25,7 @@ export default defineConfig({
     },
   },
   css: {
-    extract: true,  // Включаем извлечение CSS в отдельный файл
+    extract: true,  // извлечение CSS в отдельный файл
   },
 })
 

@@ -15,19 +15,14 @@ app.use((req, res, next) => {
     next();
 });
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-});
-
-connection.connect(function(err) {
-    if (err) {
-        return console.error("Ошибка: " + err.message);
-    } else {
-        console.log("Подключение к серверу MySQL успешно установлено");
-    }
+    database: process.env.DB_DATABASE,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0 
 });
 
 app.get('/tasks', (req, res) => {
@@ -54,7 +49,7 @@ app.get('/tasks', (req, res) => {
             Task.executiveEmployeeId = Employees.id
     `;
 
-    connection.query(query, (error, results) => {
+    pool.query(query, (error, results) => {
         if (error) {
             console.error('Ошибка при выполнении запроса к базе данных:', error);
             res.status(500).json({ message: 'Ошибка при получении списка задач' });

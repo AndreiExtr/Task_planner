@@ -1,3 +1,5 @@
+//ДАННЫЕ ИЗ БД
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -33,7 +35,6 @@ pool.getConnection((err, connection) => {
     console.log('Подключение к базе данных установлено');
     connection.release();
 });
-
 
 app.get('/tasks', (req, res) => {
     const query = `
@@ -76,8 +77,7 @@ app.listen(port, () => {
 });
 
 
-
-
+// ДАННЫЕ ИЗ ФАЙЛА db-tasks.sql
 
 // import dotenv from 'dotenv';
 // dotenv.config();
@@ -86,6 +86,7 @@ app.listen(port, () => {
 // import mysql from 'mysql2';
 // import bodyParser from 'body-parser';
 // import fs from 'fs';
+// import path from 'path';  // Импорт модуля path
 
 // const app = express();
 // app.use(bodyParser.json());
@@ -97,19 +98,8 @@ app.listen(port, () => {
 //     next();
 // });
 
-// // Подключение к базе данных
-// const pool = mysql.createPool({
-//     host: process.env.DB_HOST,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD,
-//     database: process.env.DB_DATABASE,
-//     waitForConnections: true,
-//     connectionLimit: 10,
-//     queueLimit: 0 
-// });
-
-// // Чтение SQL-файла
-// const sqlQuery = fs.readFileSync('./data/db-tasks.sql', 'utf8');
+// // Загружаем SQL-запрос из файла
+// const sqlQuery = fs.readFileSync(path.join(process.cwd(), 'data', 'db-tasks.sql'), 'utf8');
 
 // app.get('/tasks', (req, res) => {
 //     // Выполнение SQL-запроса из файла
@@ -127,4 +117,3 @@ app.listen(port, () => {
 // app.listen(port, () => {
 //     console.log(`Сервер запущен на порту ${port}`);
 // });
-

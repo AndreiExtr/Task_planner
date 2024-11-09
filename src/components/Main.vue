@@ -176,6 +176,11 @@ export default {
   font-size: 14px;
 }
 
+.task:hover{
+  background-color: rgb(230, 230, 230);
+  border: 1px solid #cccccc;
+}
+
 .task_block{
   width: 100%;
   text-align: left;

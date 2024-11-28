@@ -6,16 +6,19 @@ dotenv.config();
 import express from 'express';
 import mysql from 'mysql2';
 import bodyParser from 'body-parser';
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//     next();
+// });
+
+app.use(cors());
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -75,45 +78,3 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`Сервер запущен на порту ${port}`);
 });
-
-
-// ДАННЫЕ ИЗ ФАЙЛА db-tasks.sql
-
-// import dotenv from 'dotenv';
-// dotenv.config();
-
-// import express from 'express';
-// import mysql from 'mysql2';
-// import bodyParser from 'body-parser';
-// import fs from 'fs';
-// import path from 'path';  // Импорт модуля path
-
-// const app = express();
-// app.use(bodyParser.json());
-
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//     next();
-// });
-
-// // Загружаем SQL-запрос из файла
-// const sqlQuery = fs.readFileSync(path.join(process.cwd(), 'data', 'db-tasks.sql'), 'utf8');
-
-// app.get('/tasks', (req, res) => {
-//     // Выполнение SQL-запроса из файла
-//     pool.query(sqlQuery, (error, results) => {
-//         if (error) {
-//             console.error('Ошибка при выполнении запроса к базе данных:', error);
-//             res.status(500).json({ message: 'Ошибка при получении списка задач' });
-//             return;
-//         }
-//         res.json(results);
-//     });
-// });
-
-// const port = 3000;
-// app.listen(port, () => {
-//     console.log(`Сервер запущен на порту ${port}`);
-// });
